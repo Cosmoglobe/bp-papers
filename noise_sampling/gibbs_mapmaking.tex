@@ -1,0 +1,324 @@
+\documentclass[traditabstract]{aa}
+
+%\usepackage{amsmath}
+%\usepackage{txfonts}
+%\usepackage{ifpdf}
+
+\newcommand{\ve}[1]{{\mathbf #1}}
+\newcommand{\ma}[1]{\mathbf{#1}}
+\newcommand{\pcal}{{\cal P}}
+
+\begin{document}
+
+\title{CMB map-making through Gibbs sampling}
+
+\author
+{E.~Keih\"anen\inst{1} and
+A.-S.~Suur-Uski\inst{1} }
+
+
+\institute{
+University of Helsinki, Department of Physics,
+P.O.~Box 64, FIN-00014, Helsinki, Finland \\
+\email{elina.keihanen@helsinki.fi}
+}
+
+\abstract{
+}
+
+\keywords{methods: numerical -- data analysis -- cosmic microwave background}
+
+\maketitle
+
+\section{Introduction}
+
+Map-making is a central step in the data processing chain
+in cosmic microwave background (CMB) measurements.
+The aim of map-making is to produce pixelized sky maps 
+of CMB temperatute and polarization, starting
+from calbrated time-ordered dat.
+
+An important part of the map-making process
+is the removal of correlated $1/f$ noise.
+A number of different methods have been developed for this purpose.
+The generalized least-squares methods find the map
+that maximizes the likelihood ${\cal P}(d | m)$ (references).
+Another approach is the destriping technique (references),
+where the correlated noise component is modelled by a sequence 
+of offsets, which are then solved are subtracted from the timeline.
+
+Map-making is a memory-intensive data processing step,
+since it requires that all the detector pointing information
+for the data set is kept in memory simultaneously.
+
+In this work we examine the possibility of solving the map-making problem
+through Gibbs sampling technique.
+We are assuming Planck-like instrument characteristics and scanning strategy,
+but the idea itself is more general, and can be applied to different CMB experiments.
+
+Gibbs sampling breaks the heavy map-making problem into two separate steps,
+a simple binning operation, and noise filtering.
+Both are much simpler operations than the combined map-making.
+The complex map-making procedure transforms
+into an iterative procedure where map-binning and noise filtering take turns.
+
+One great benefit from the proposed procedure is that the noise filtering step 
+can be carried out separately for each pointing period, reducing the memory 
+requirement tremendously.
+For the first time, we are able to reduce the length of the destriping baseline 
+to one single sample.
+
+%In absence of data flagging and strong foregrounds, the filtering step
+%would reduce into a simple FFT operation, but flagging and need for masking
+%break the stationarity of the data.  We adopt techniques familiar from destriping
+%to solve the filtering equation.   
+
+As a by-product the Gibbs process yields an estimate of the statistical error 
+in the output map, including both white and residual correlated noise,
+without need to compute a NCVM (noise covariance matrix).
+
+The great potential of the method
+lies in a scenario where the map-making step in combined withing Gibbs framework
+with other data processing steps, for instance calibration or component separation.
+
+
+\section{Method}
+
+We are considering a time-ordered data stream from one detector
+of a Planck-like absolute CMB experiment.
+%
+\begin{equation}
+  \ve{d} = \ma{P}\ve{m}  +\ve{n'}.
+\end{equation}
+%
+Here $\ma{P}$ is the pointing matrix, which encodes the scanning scanning strategy
+and the detector's response to temperature and polarization, and $\ve{m}$ is
+the pixelized sky map, including temperature and polarization components 
+in the form og $I,Q,U$ Stokes components.
+In place of $\ma{P}\ve{m}$ we could have different sky models, for instance 
+a harmonic representation of the sky.  
+Since the main interest in this work is on the handling of the noise component $\ve{n'}$,
+we do not pursue these possibilities further, but assume the simple pixelized sky model.
+
+In the spirit of destriping we write the noise term as
+%
+\begin{equation}
+  \ve{n'} = \ma{F}\ve{x}  +\ve{n}
+\end{equation}
+%
+where now $\ve{x}$ represent the noise baselines, $\ma{F}$ is a matrix,
+consisting one ones and zeroes, which formally spreads
+them into a full data stream. The last term $\ve{n}$ represents white noise.
+
+We can now write out the likelihood of the $(\ve x,\ve m)$ model as
+%
+\begin{equation}
+\pcal(\ve m,\ve x\vert \ve d,\ma C_x) = \pcal(\ve y \vert \ve m,\ve x) \pcal(\ve x \vert \ma C_x) . \label{like1}
+\end{equation}
+%
+The first term is the probability of observing the data stream $\ve y$
+for given realization of $\ve x$ and $\ve m$, and it is obtained from the white noise distribution
+%
+%$\ve n=\ve d - \ma{F}\ve{a} -\ma{P}\ve{m}$, given white noise covariance $\ma C_w$,
+%
+\begin{equation}
+\pcal(\ve y \vert \ve m,\ve x) = (|2\pi\ma{C}_w])^{-\frac12} 
+e^{-\frac12(\ve y - \ma{F}\ve{x} -\ma{P}\ve{m} )^T\ma{C}_w^{-1}
+                 (\ve y - \ma{F}\ve{x} -\ma{P}\ve{m} ) }
+\end{equation}
+%
+where $\ma C_w$ is the diagonal white noise covariance.
+The second term is a prior, the probablility of finding a given realization of correlated noise,
+in a given noise model that is characterized by the time-domain noise covariance $\ma C_x$.
+%
+\begin{equation}
+\pcal(\ve x \vert \ma C_x) = (|2\pi\ma{C}_x])^{-\frac12}  e^{-\ve{x}^T\ma{C}_x^{-1}\ve x}.
+\end{equation}
+%
+We are not assuming a priori for the sky map $\ve m$.
+
+The conventional destriping procedure finds the combination $(\ve x,\ve m)$ that maximizes 
+the likelihood $\pcal(\ve m,\ve x\vert \ve y,\ma C_x)$.
+This comes down to solving a large linear system for $\ve x$. {\bf references}
+
+We now proceed to evaluate the likelihood of Eq. (\ref{like1})
+through Gibbs sampling.  Gibbs sampling is a powerful technique that allows to sample a multivariate likelihood
+as a sequence of simpler conditioned likelihoods.
+The technique has been applied to component separation of Planck data very successfully. {\bf references}
+
+The basic Gibbs sampling loop for map-making consists of two steps:
+%
+\begin{eqnarray}
+ \ve{m'}  &\leftarrow& \pcal(\ve m \vert \ve{y},\ve x)   \nonumber \\
+ \ve{x'}  &\leftarrow& \pcal(\ve x \vert \ve{y},\ve m)  
+\end{eqnarray}
+
+1.  For data stream $\ve y$ and noise baselines $\ve x$,
+    updatef the sky map $\ve m$ by drawing a saple
+    from the distribution
+%
+\begin{equation}
+\pcal(\ve m \vert \ve y,\ve x) = (|2\pi\ma{C}_w])^{-\frac12} 
+e^{-\frac12(\ve y' -\ma{P}\ve{m} )^T\ma{C}_w^{-1}
+                 (\ve y' -\ma{P}\ve{m} ) }
+\end{equation}
+%
+where $\ve y'=\ve y-\ma F\ve x$ is the data stream
+form which we have subtracted
+the previous sample of $\ve x$. \newline
+
+2. For data stream $\ve y$ and sky $\ve m$,
+    update the baseline vector $\ve x'$
+    by drawing a sample
+from the distribution
+%
+\begin{eqnarray}
+\pcal(\ve x \vert \ve y,\ve m) &=& (|2\pi\ma{C}_w])^{-\frac12} 
+e^{-\frac12(\ve y'' -\ma{F}\ve{x} )^T\ma{C}_w^{-1}
+                 (\ve y'' -\ma{F}\ve{x} ) } \\
+&& \times                 (|2\pi\ma{C}_x])^{-\frac12}  e^{-\ve{x}^T\ma{C}_x^{-1}\ve x} \nonumber
+\end{eqnarray}
+%
+where now $\ve y''=\ve y-\ma P\ve m$
+is a data stream from which we have subtracted 
+the previous sample of $\ve m$.
+
+The outcome from the sampling procedure is a chain
+of $\ve m$ and $\ve x$ samples,
+with their distribution sampling the combined likelihood
+of Eq. (\ref{like1}).
+
+Both conditioned likelihood functions above
+are Gaussian function with a linear model.
+This kind of likelihood can be sampled efficiently
+by standard methods. {\bf references}
+We briefly review the method here, for the convenience of the reader.
+
+We are given a Gaussian likelihood distribution of variable $\ve x$ with prior,
+%
+\begin{eqnarray}
+\pcal(\ve x) &=& \frac{1}{\sqrt{2\pi|\ma C_n|}} e^{-\frac12 (\ve y-\ma A\ve x)^T\ma C_n^{-1} (\ve y-\ma A\ve x)}  \label{gengauss}\\
+&& \times \frac{1}{\sqrt{2\pi|\ma C_x|}} e^{-\frac12 \ve x^T\ma C_x^{-1} \ve x}  \nonumber
+\end{eqnarray}
+%
+where $\ma A$ is some linear model, $\ve y$ represents data (observations), 
+$\ma C_y$ is the noise covariance in $\ve y$ (not necessarily white),
+and $\ma C_x$ is a Gaussian prior.
+%
+The value of $\ve x$ that maximizes the likelihood is readily found to be
+%
+\begin{equation}
+\ve x = (\ma A^T \ma C_n^{-1}\ma A +\ma C_x^{-1})^{-1} \ma A^T \ma C_n^{-1} \ve y  \label{mlsolution}
+\end{equation}
+%
+Rather than finding the maximum-likelihood solution,
+we now want to draw a random sample of the distribution of eq. (\ref{gengauss}).
+This can be done by solving a linear system similar to that of Eq. (\ref{mlsolution}),
+but with a modified righ-hand-side, as
+%
+\begin{eqnarray}
+\ve b &=&  \ma A^T \ma C_n^{-1} \ve y  
+        +\ma A^T\ma C_n^{-1/2}\ve\omega_1 
+        +\ma C_x^{-1/2}\ve\omega_2  \nonumber \\
+\ve x &=& (\ma A^T \ma C_n^{-1}\ma A +\ma C_x^{-1})^{-1} \ve b \label{gibbssolution}
+\end{eqnarray}
+%
+Here $\omega_1$ and $\omega_2$
+are two vectors of random numbers, drawn from a normalized 
+Gaussian distribution $N(0,1)$.
+The first vector has length equal to that of the data stream $\ve y$,
+the second one to that of $\ve x$.
+
+Applying this to our map-making problem we end up with the
+followig two-step procedure.
+Starting from ($\ve m,\ve x$), we update the vectors as follows.
+
+\parindent=0mm
+1. Map sampling:
+%
+\begin{equation}
+\ve m' = (\ma P^T \ma C_w^{-1}\ma P)^{-1} [\ma P^T \ma C_w^{-1} (\ve y-\ma F\ve x) 
++ \ma C_w^{-1/2}\ve\omega_1] \label{gibbs1}
+\end{equation} 
+%
+
+2. Noise sampling:
+%
+\begin{eqnarray}
+\ve b &=&  \ma F^T \ma C_w^{-1} (\ve y -\ma P\ve m')
+        +\ma F^T\ma C_w^{-1/2}\ve\omega_2 
+        +\ma C_x^{-1/2}\ve\omega_3   \nonumber \\
+\ve x' &=& (\ma F^T \ma C_w^{-1}\ma F +\ma C_x^{-1})^{-1} \ve b \label{gibbs2}
+\end{eqnarray}
+%
+To draw one pair of samples we thus need three independent Gaussian random vectors, 
+$\omega_1,\omega_2,\omega_3$.
+
+\parindent=5mm
+Equations (\ref{gibbs1}) and (\ref{gibbs2})
+represent our Gibbs map-making algorithm in a general form.
+
+
+\subsection{Noise estimation}
+
+
+
+
+\section{Use case: Planck}
+
+We now proceed to examine the steps in the case of Planck.
+We make the usual approximations of Planck data processing: \\
+1. We ignore beam smearing effects, and assume that all signal
+recorded by a detector at a given point of time comes from the pixel where the beam center falls. \\
+2. Detector noise is uncorrelated between pointing periods. \\
+3. Correlated noise within a pointing period is Gaussian and stationary.  \\
+4. The white noise component by definition is uncorrelated, and its covariance $\ma C_w$ is diagonal,
+but not necessarily constant.  Useless data is excluded from analysis by explicitely setting $\ma C_w^{-1}=0$
+for the flagged samples.
+
+Under the these assumptions, matrix $\ma P^T\ma C_w^{-1}\ma P$
+is block-diagonal matrix, consisting of $3\times3$ blocks,
+and be inverted trivially.
+The map sampling step of Eq. (\ref{giggs1})
+represents a simple map-binning operation.
+
+The noise sampling step can be carried out independently for each pointing period ($\sim$40 min on average).
+This gives a tremendous memory save when compared to full map-making,
+and for the first time we can bring the basseline length down to one single sample.
+At this extreme limit $\ma F$ reduces to identity matrix, and the noise sampllng step simplifies into
+%
+\begin{eqnarray}
+\ve b &=&  \ma C_w^{-1} (\ve y -\ma P\ve m')
+        +\ma C_w^{-1/2}\ve\omega_2 
+        +\ma C_x^{-1/2}\ve\omega_3   \nonumber \\
+\ve x' &=& (\ma C_w^{-1} +\ma C_x^{-1})^{-1} \ve b \label{gibbs3}
+\end{eqnarray}
+%
+Here term $\ma C_x^{-1}\ve\omega_3$ represents the operation
+of applying a noise filter to sequence of gaussian randoms.
+Since $\ma C_x$ is stationary, this can be carried out efficiently with FFT technique.
+The computationally most demanding step here is the operation
+of $\ma C_w^{-1} +\ma C_x^{-1})^{-1} $.
+In absense of flagging and masking, this too would be
+a simple FFT operation. The flagging, however, breaks
+the stationarity of the problem.
+We therefore us conjugate-gradient iteration to solve the equation.
+
+\subsection{Initialisation}
+
+
+\subsection{Sky masking}
+
+
+\subsection{Noise characterisation}
+
+
+\subsection{Simulations}
+
+
+\section{Results}
+
+
+\end{document}
+
+

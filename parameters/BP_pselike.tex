@@ -1,0 +1,183 @@
+\documentclass[twocolumn]{aa}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{txfonts}
+\usepackage{color}
+%\usepackage{fixltx2e}
+\usepackage{natbib}
+%\usepackage{caption,subcaption}
+%\usepackage{epsfig}
+\usepackage{float}
+%\usepackage{stfloats}
+\usepackage{dblfloatfix}
+\usepackage{afterpage}
+\usepackage{ifthen}
+\usepackage[morefloats=12]{morefloats}
+\usepackage{placeins}
+\usepackage{multicol}
+%\usepackage[breaklinks,colorlinks,citecolor=blue]{hyperref}
+\bibpunct{(}{)}{;}{a}{}{,}
+\usepackage[switch]{lineno}
+\definecolor{linkcolor}{rgb}{0.6,0,0}
+\definecolor{citecolor}{rgb}{0,0,0.75}
+\definecolor{urlcolor}{rgb}{0.12,0.46,0.7}
+\usepackage[breaklinks, colorlinks, urlcolor=urlcolor,
+    linkcolor=linkcolor,citecolor=citecolor,pdfencoding=auto]{hyperref}
+\hypersetup{linktocpage}
+
+
+\input{Planck}
+
+\def\WMAP{WMAP}
+\def\COBE{COBE}
+\def\LCDM{$\Lambda$CDM}
+\def\ffp{FFP6}
+\def\unionmask{U73}
+\def\nside{N_{\mathrm{side}}}
+
+\def\healpix{\texttt{HEALPix}}
+\def\commander{\texttt{Commander}}
+\def\commanderone{\texttt{Commander1}}
+\def\commandertwo{\texttt{Commander2}}
+\def\ruler{\texttt{Ruler}}
+\def\comrul{\texttt{Commander-Ruler}}
+\def\CR{\texttt{C-R}}
+\def\nilc{\texttt{NILC}}
+\def\gnilc{\texttt{GNILC}}
+\def\sevem{\texttt{SEVEM}}
+\def\smica{\texttt{SMICA}}
+\def\CamSpec{\texttt{CamSpec}}
+\def\Plik{\texttt{Plik}}
+\def\XFaster{\texttt{XFaster}}
+
+\renewcommand{\d}[0]{\vec{d}}
+\renewcommand{\t}[0]{\vec{t}}
+\newcommand{\A}[0]{\tens{A}}
+%\newcommand{\Y}[0]{\tens{Y}}
+\newcommand{\Y}[0]{\tens{Y}}
+\newcommand{\n}[0]{\vec{n}}
+\newcommand{\red}[0]{\color{red}}
+\newcommand{\green}[0]{\color{green}}
+\newcommand{\s}[0]{\vec{s}}
+\renewcommand{\a}[0]{\vec{a}}
+\newcommand{\m}[0]{\vec{m}}
+\newcommand{\f}[0]{\vec{f}}
+\newcommand{\F}[0]{\tens{F}}
+\newcommand{\B}[0]{\tens{B}}
+\newcommand{\T}[0]{\tens{T}}
+\newcommand{\Cp}[0]{\tens{C}}
+\renewcommand{\L}[0]{\tens{L}}
+\newcommand{\g}[0]{\vec{g}}
+\newcommand{\N}[0]{\tens{N}}
+\newcommand{\M}[0]{\tens{M}}
+\newcommand{\iN}[0]{\tens{N}^{-1}}
+\newcommand{\iM}[0]{\tens{M}^{-1}}
+\newcommand{\w}[0]{\vec{w}}
+\renewcommand{\S}[0]{\tens{S}}
+\renewcommand{\r}[0]{\vec{r}}
+\renewcommand{\u}[0]{\vec{u}}
+\newcommand{\q}[0]{\vec{q}}
+\renewcommand{\v}[0]{\vec{v}}
+\renewcommand{\P}[0]{\tens{P}}
+\newcommand{\dt}[0]{d_t}
+\newcommand{\di}[0]{d_i}
+\newcommand{\nt}[0]{n_t}
+\newcommand{\st}[0]{s_t}
+\newcommand{\mt}[0]{m_t}
+\newcommand{\ft}[0]{f_t}
+\newcommand{\Te}[0]{T_{\rm e}}
+\newcommand{\EM}[0]{\rm EM}
+\newcommand{\mathsc}[1]{{\normalfont\textsc{#1}}}
+\newcommand{\hi}{\ensuremath{\mathsc {Hi}}}
+
+
+
+\def\bC{\tens{C}}
+\def\ba{\vec{a}}
+\def\ncha{N_\mathrm{cha}}
+\def\nfg{N_\mathrm{fg}}
+
+%\modulolinenumbers[5]
+%\linenumbers
+
+\newcommand{\includegraphicsdpi}[3]{
+    \pdfimageresolution=#1  % Change the dpi of images
+    \includegraphics[#2]{#3}
+    \pdfimageresolution=72  % Change it back to the default
+}
+
+\renewcommand{\topfraction}{1.0}	% max fraction of floats at top
+    \renewcommand{\bottomfraction}{1.0}	% max fraction of floats at bottom
+    %   Parameters for TEXT pages (not float pages):
+    \setcounter{topnumber}{2}
+    \setcounter{bottomnumber}{2}
+    \setcounter{totalnumber}{4}     % 2 may work better
+    \setcounter{dbltopnumber}{2}    % for 2-column pages
+    \renewcommand{\dbltopfraction}{0.9}	% fit big float above 2-col. text
+    \renewcommand{\textfraction}{0.04}	% allow minimal text w. figs
+    %   Parameters for FLOAT pages (not text pages):
+    \renewcommand{\floatpagefraction}{0.9}	% require fuller float pages
+	% N.B.: floatpagefraction MUST be less than topfraction !!
+    \renewcommand{\dblfloatpagefraction}{0.9}	% require fuller float pages
+
+\def\adj{^{\dagger}}
+\def\tp{^{\rm T}}
+\def\inv{^{-1}}
+\def\lm{{\ell m}}
+
+\begin{document}
+
+\title{\textit{BeyondPlanck} results. VI. Power Spectra, Likelihoods and Cosmological Parameters}
+\input{../common/BP_authors.tex}
+\authorrunning{Planck Collaboration}
+\titlerunning{Diffuse component separation}
+
+\abstract{}
+
+\keywords{ISM: general -- Cosmology: observations, polarization,
+    cosmic microwave background, diffuse radiation -- Galaxy:
+    general}
+
+\maketitle
+
+%\hypersetup{linkcolor=black}
+%\tableofcontents
+%\hypersetup{linkcolor=red} 
+
+
+\section{Introduction}
+\label{sec:introduction}
+
+We start with \citet{planck2016-l01}.
+
+\section{Low Resolution dataset}
+\label{sec:dataset}
+
+\section{PSE and Likelihood}
+\label{sec:pselike}
+
+\section{Cosmological parameters from BP+Planck}
+\label{sec:params}
+
+\section{Constraints on reionization}
+\label{sec:reio}
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+
+\input{../common/BP_acknowledgments.tex}
+
+\bibliographystyle{aa}
+
+\bibliography{../common/Planck_bib,../common/BP_bibliography}
+
+\appendix
+
+\section{Appendix}
+\label{app:appendix}
+
+
+
+\end{document}

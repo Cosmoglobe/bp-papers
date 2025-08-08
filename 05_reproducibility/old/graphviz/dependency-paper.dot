@@ -1,0 +1,139 @@
+
+digraph g {
+    graph [rankdir = "LR", nodesep="0.1", ranksep="0.", colorscheme="rdylbu6"];
+
+    node [ fontsize = "16", shape = "record", nodesep="0", pad="6"];
+    edge [];
+
+    # graphviz colors: https://www.graphviz.org/doc/info/colors.html    
+
+    # as is, instr does nothing, but you can add a stgX to see difference.
+    {rank = same; stg1; pre01; }
+    {rank = same; stg2; pre02; }
+
+    #=== Preprocesss =====================================
+    
+        "pre01" [
+        shape=none
+        label = <<table border="" cellspacing="0">
+                <tr><td border="1" bgcolor="/rdylbu11/4"><b>Data Collection #1<br/>Instrument Files</b></td></tr>
+                <tr><td border="1">LFI RIMO</td></tr>
+                <tr><td border="1">Beams</td></tr>
+                <tr><td border="1">Sidelobs</td></tr>
+                <tr><td port="out" border="1" bgcolor="/rdylbu11/5"><b>Output</b></td></tr>
+                </table>>
+        ];
+
+        "pre02"  [ 
+        shape=none
+        label = <<table border="" cellspacing="0">
+                <tr><td border="1" bgcolor="/rdylbu11/4"><b>Data Collection #2<br/>NPIPE Maps<br/>RMS Calculations</b></td></tr>
+                <tr><td border="1">NPIPE maps</td></tr>
+                <tr><td border="1">NPIPE white noise<br/>convariance matrices</td></tr>
+                <tr><td border="1">White Noise levels</td></tr>
+                <tr><td port="out" border="1" bgcolor="/rdylbu11/5"><b>Output</b></td></tr>
+                </table>>
+        ];
+
+        "pre03"  [ 
+        shape=none
+        label = <<table border="" cellspacing="0">
+                <tr><td border="1" bgcolor="/rdylbu11/4"><b>Data Collection #3<br/>NPIPE Mask Maps</b></td></tr>
+                <tr><td border="1">NPIPE maps</td></tr>
+                <tr><td border="1">Haslam Maps</td></tr>
+                <tr><td border="1">WMAP Maps</td></tr>
+                <tr><td port="out" border="1"  bgcolor="/rdylbu11/5"><b>Output</b></td></tr>
+                </table>>
+        ];
+
+        "bp" [
+        shape=none
+        label = <<table border="3" cellspacing="4" bgcolor="/rdylbu11/8">
+                <tr><td border="1" bgcolor="/rdylbu11/10"><font color="white"><b>BeyondPlanck<br/>Commander 3<br/>Execution</b></font></td></tr>
+                <tr><td port="l1" border="1" bgcolor="/rdylbu11/7">L1 HDF5<br/>Compressed Data</td></tr>
+                <tr><td port="instr" border="1" bgcolor="/rdylbu11/5">Instrument Files</td></tr>
+                <tr><td port="rms" border="1" bgcolor="/rdylbu11/5">RMS from<br/>NPIPE Maps</td></tr>
+                <tr><td port="masks" border="1" bgcolor="/rdylbu11/5">Mask maps<br/>from NPIPE</td></tr>
+                <tr><td border="1" bgcolor="white">Haslam Maps</td></tr>
+                <tr><td border="1" bgcolor="white">WMAP Maps</td></tr>
+                <tr><td border="1" bgcolor="white">Beam Files</td></tr>
+                <tr><td border="1" bgcolor="white">LFI RIMO</td></tr>
+                <tr><td border="1" bgcolor="white">NPIPE maps</td></tr>
+                <tr><td port="out" border="1"  bgcolor="/rdylbu11/9"><font color="black"><b>Output</b></font></td></tr>
+                </table>>
+                fontsize=18
+        ];
+
+        "stg3" [
+        shape=none
+        label = <<table border="" cellspacing="0">
+                <tr><td border="1" bgcolor="/rdylbu11/8"><b>Pre-process #3<br/>HDF5 Compression</b></td></tr>
+                <tr><td port="l1" border="1" bgcolor="/rdylbu11/7">Data Selected Data</td></tr>
+                <tr><td port="gains" border="1" bgcolor="/rdylbu11/7">Initial Gains</td></tr>
+                <tr><td border="1">LFI RIM</td></tr>
+                <tr><td border="1">Satelitte Velocity</td></tr>
+                <tr><td port="data" border="1">Data Selected Data</td></tr>
+                <tr><td port="out" border="1" bgcolor="/rdylbu11/7"><b>Output</b></td></tr>
+                </table>>
+        ];
+
+
+        "stg2" [
+        shape=none
+        label = <<table border="" cellspacing="0">
+                <tr><td border="1" bgcolor="/rdylbu11/8"><b>Pre-process #2<br/>Initial Gains<br/>Calculations</b></td></tr>
+                <tr><td port="data" border="1" bgcolor="/rdylbu11/7">Data Selected<br/>Data</td></tr>
+                <tr><td border="1">Masks</td></tr>
+                <tr><td border="1">Diode Weights</td></tr>
+                <tr><td border="1">Dipole Convolve<br/>Parameters</td></tr>
+                <tr><td border="1">Ringsets</td></tr>
+                <tr><td port="out" border="1" bgcolor="/rdylbu11/7"><b>Output</b></td></tr>
+                </table>>
+        ];
+
+
+        "stg1" [
+        shape=none
+        label = <<table border="" cellspacing="0">
+                    <tr><td border="1" bgcolor="/rdylbu11/8"><b>Pre-process #1<br/>Data Selection</b></td></tr>
+                    <tr><td port="l1" border="1" >L1 Data</td></tr>
+                    <tr><td port="out" border="1" bgcolor="/rdylbu11/7"><b>Output</b></td></tr>
+                </table>>
+        ];
+
+
+    pla_prods [ 
+        shape="note"
+        label=<<font color="white"><b>BeyondPlanck<br/>Products</b></font>> style=filled fillcolor="/rdylbu11/2" 
+        ];
+
+
+
+
+    #== Connections TO ======================================
+
+
+        # to Preprocess 2
+        stg1:out -> stg2:data
+        #masks -> stg2:inp
+        #diode -> stg2:inp
+        #dipole -> stg2:inp
+        #ringsets -> stg2:inp
+        
+        # to Preprocess 3
+        stg2:out -> stg3:gains
+        stg1:out -> stg3:l1
+
+        # to Preprocess 4
+        stg3:out -> bp:l1
+        pre03:out -> bp:masks
+        pre02:out -> bp:rms
+        pre01:out -> bp:instr
+        bp:out:s -> bp:out:e [label="multiple\niterations"]
+
+        # to Products
+        bp:out -> pla_prods
+
+}
+
+

@@ -1,0 +1,178 @@
+
+digraph g {
+    graph [rankdir = "LR"];
+
+    node [ fontsize = "16" shape = "record" nodesep="0" pad="5"];
+    edge [];
+
+    prb01_1 [label="PRB01" style=filled fillcolor=red fontcolor=white shape="ellipse"];
+    prb01_2 [label="PRB01" style=filled fillcolor=red fontcolor=white shape="ellipse"];
+    prb02_1 [label="PRB02" style=filled fillcolor=red fontcolor=white shape="ellipse"];
+    prb04 [label="PRB04" style=filled fillcolor=red fontcolor=white shape="ellipse"];
+    prb05 [label="PRB05" style=filled fillcolor=red fontcolor=white shape="ellipse"];
+    prb06 [label="PRB06" style=filled fillcolor=red fontcolor=white shape="ellipse"];
+    prb07 [label="PRB07" style=filled fillcolor=red fontcolor=white shape="ellipse"];
+    prb08 [label="PRB08" style=filled fillcolor=red fontcolor=white shape="ellipse"];
+    prb09 [label="PRB09" style=filled fillcolor=red fontcolor=white shape="ellipse"];
+
+
+
+
+    pla_rimo1 [ label="PUB01: LFI RIMO" style=filled fillcolor=palegreen shape="ellipse"]
+    pla_rimo2 [ label="PUB01: LFI RIMO" style=filled fillcolor=palegreen shape="ellipse"]
+    pla_rimo3 [ label="PUB01: LFI RIMO" style=filled fillcolor=palegreen shape="ellipse"]
+
+    pla_beams1 [ label="PUB05: Beams" style=filled fillcolor=palegreen  shape="ellipse"]
+    pla_beams2 [ label="PUB05: Beams" style=filled fillcolor=palegreen shape="ellipse" ]
+
+    pla_sidel1 [ label="PUB06: Sidelobs" style=filled fillcolor=palegreen shape="ellipse" ]
+
+    pla_velo1 [ label="PUB07: Satelite Velocity" style=filled fillcolor=palegreen shape="ellipse" ]
+
+    pla_raw1 [ label="PUB02: Raw Data" style=filled fillcolor=red fontcolor=white shape="ellipse"]
+
+    
+    pla_haslam1 [ label="PUB03: Haslam Maps" style=filled fillcolor=palegreen  shape="ellipse"]
+    pla_haslam2 [ label="PUB03: Haslam Maps" style=filled fillcolor=palegreen  shape="ellipse"]
+
+    pla_wmap1 [ label="PUB04: WMAP Maps" style=filled fillcolor=palegreen  shape="ellipse"]
+    pla_wmap2 [ label="PUB04: WMAP Maps" style=filled fillcolor=palegreen  shape="ellipse"]
+
+    "pre01" [
+    label = "<ttl>Precalc #1\n[Instrum.File for CM3] |
+            <rim> LFI RIMO | 
+            <beams> Beams |
+            <sidel> Sidelobs | 
+            <out> Outputs:"
+    ];
+
+
+    "pre02"  [ 
+    label = "<ttl>Precalc #2\n[RMS Calcs for NPIPE skymaps] |
+            <npipe> NPIPE maps | 
+            <cov_matr> NPIPE white noise cov.matrices|
+            <noise> White Noise levels | 
+            <out> Outputs:"
+    ];
+
+    "pre03"  [ 
+    label = "<ttl>Precalc #3\n[Mask Maps for CM3] |
+            <npipe> NPIPE maps | 
+            <haslam> Haslam Maps |
+            <wmap> WMAP Maps | 
+            <out> Outputs:"
+    ];
+
+    "stg1" [
+    label = "<ttl> Stage #1\nInitial Conversion |
+            <raw> Raw Data |
+            <out> Outputs:"
+    ];
+
+
+    "stg2" [
+    label = "<ttl> Stage #2\nData Selection |
+            <data> Converted Data | 
+            <out> Outputs:"
+    ];
+
+    "stg3" [
+    label = "<ttl> Stage #3\nInitial Gains Calc |
+            <data> Data Selected Data  |
+            <mask> mask_calib[30,44,70]GHz.fits |
+            <diode> Diode Weights |
+            <dipole> Dipole Convolve params  |
+            <ring> cmbco/bp/data/ringsets/* |
+            <aux> cmbco/bp/data/auxiliary_data/* |
+            <out> Outputs:"
+    ];
+
+
+    "stg4" [
+    label = "<ttl> Stage #4\nHDF5 Compression |
+            <rim> LFI RIMO |
+            <satVel> Satelitte Velocity |
+            <data> Data Selected Data |
+            <gains> Initial Gains |
+            <out> Outputs:"
+    ];
+
+
+    "stg5" [
+    label = "<ttl> Stage #5\nScientific Results |
+            <data> Compressed HDF5 Files |
+            <instr> Instrument File |
+            <haslam> Haslam Maps |
+            <wmap> WMAP Maps |
+            <beams> Beam Files |
+            <aux> Aux files |
+            <rimo> LFI RIMO |
+            <npipe> NPIPE maps |
+            <rms> RMS from NPIPE Maps |
+            <mask> Mask Maps |
+            <out> Outputs:"
+    shape = "record"
+    ];
+
+
+
+    science_out [ label="Out files"style=filled fillcolor=red fontcolor=white shape="ellipse"]
+
+
+    #========================================
+
+    # to pre01
+    pla_rimo1:d -> pre01:rim
+    pla_beams1:d -> pre01:beams
+    pla_sidel1:d -> pre01:sidel 
+
+    # to pre02
+    prb02_1 -> pre02:npipe
+    prb08 -> pre02:cov_matr
+    prb09 -> pre02:noise
+
+
+    # to pre03
+    prb02_1 -> pre03:npipe
+    pla_haslam2 -> pre03:haslam
+    pla_wmap2 -> pre03:wmap
+
+    # to stg01
+    pla_raw1:d -> stg1:raw
+
+    # to stg2
+    stg1:out -> stg2:data [label="GEN02"]
+
+
+    # to stg3
+    prb04 -> stg3:mask
+    prb05 -> stg3:diode
+    prb06 -> stg3:dipole
+    prb01_1 -> stg3:aux
+    prb07 -> stg3:ring
+    stg2:out -> stg3:data
+
+
+    # to stg4
+    pla_rimo2 -> stg4:rim
+    pla_velo1 -> stg4:satVel
+    stg2:out -> stg4:data [taillabel="GEN03" labeldistance=4 labelangle=10]
+    stg3:out -> stg4:gains [taillabel="GEN04" labeldistance=4 labelangle=10]
+
+    # to stg5
+
+    pla_rimo3 -> stg5:rimo
+    stg4:out -> stg5:data [taillabel="GEN05" labeldistance=4 labelangle=10]
+    pre01:out -> stg5:instr [taillabel = "GEN01" labeldistance=4 labelangle=10]
+    pla_wmap1 -> stg5:wmap
+    pla_haslam1 -> stg5:haslam
+    pla_beams2 -> stg5:beams
+    prb02_1 -> stg5:npipe
+    prb01_2 -> stg5:aux
+    pre02:out -> stg5:rms [ label="GEN06" labeldistance=4 labelangle=10]
+    pre03:out -> stg5:mask [ taillabel="GEN07" labeldistance=4 labelangle=10]
+
+    stg5:out -> science_out
+
+}
+

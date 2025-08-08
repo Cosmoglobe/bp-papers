@@ -1,0 +1,340 @@
+\documentclass[twocolumn]{aa}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{txfonts}
+\usepackage{color}
+%\usepackage{fixltx2e}
+\usepackage{natbib}
+%\usepackage{caption,subcaption}
+%\usepackage{epsfig}
+\usepackage{float}
+%\usepackage{stfloats}
+\usepackage{dblfloatfix}
+\usepackage{afterpage}
+\usepackage{ifthen}
+\usepackage[morefloats=12]{morefloats}
+\usepackage{placeins}
+\usepackage{multicol}
+\usepackage{makecell}
+\usepackage{multirow}
+%\usepackage[breaklinks,colorlinks,citecolor=blue]{hyperref}
+\bibpunct{(}{)}{;}{a}{}{,}
+\usepackage[switch]{lineno}
+\definecolor{linkcolor}{rgb}{0.6,0,0}
+\definecolor{citecolor}{rgb}{0,0,0.75}
+\definecolor{urlcolor}{rgb}{0.12,0.46,0.7}
+\usepackage[breaklinks, colorlinks, urlcolor=urlcolor,
+    linkcolor=linkcolor,citecolor=citecolor,pdfencoding=auto]{hyperref}
+\hypersetup{linktocpage}
+
+
+\input{Planck}
+
+\def\WMAP{WMAP}
+\def\COBE{COBE}
+\def\LCDM{$\Lambda$CDM}
+\def\ffp{FFP6}
+\def\unionmask{U73}
+\def\nside{N_{\mathrm{side}}}
+
+\def\healpix{\texttt{HEALPix}}
+\def\commander{\texttt{Commander}}
+\def\commanderone{\texttt{Commander1}}
+\def\commandertwo{\texttt{Commander2}}
+\def\ruler{\texttt{Ruler}}
+\def\comrul{\texttt{Commander-Ruler}}
+\def\CR{\texttt{C-R}}
+\def\nilc{\texttt{NILC}}
+\def\gnilc{\texttt{GNILC}}
+\def\sevem{\texttt{SEVEM}}
+\def\smica{\texttt{SMICA}}
+\def\CamSpec{\texttt{CamSpec}}
+\def\Plik{\texttt{Plik}}
+\def\XFaster{\texttt{XFaster}}
+
+\renewcommand{\d}[0]{\vec{d}}
+\renewcommand{\t}[0]{\vec{t}}
+\newcommand{\A}[0]{\tens{A}}
+%\newcommand{\Y}[0]{\tens{Y}}
+\newcommand{\Y}[0]{\tens{Y}}
+\newcommand{\n}[0]{\vec{n}}
+\newcommand{\red}[0]{\color{red}}
+\newcommand{\green}[0]{\color{green}}
+\newcommand{\s}[0]{\vec{s}}
+\renewcommand{\a}[0]{\vec{a}}
+\newcommand{\m}[0]{\vec{m}}
+\newcommand{\f}[0]{\vec{f}}
+\newcommand{\F}[0]{\tens{F}}
+\newcommand{\B}[0]{\tens{B}}
+\newcommand{\T}[0]{\tens{T}}
+\newcommand{\Cp}[0]{\tens{C}}
+\renewcommand{\L}[0]{\tens{L}}
+\newcommand{\g}[0]{\vec{g}}
+\newcommand{\N}[0]{\tens{N}}
+\newcommand{\M}[0]{\tens{M}}
+\newcommand{\iN}[0]{\tens{N}^{-1}}
+\newcommand{\iM}[0]{\tens{M}^{-1}}
+\newcommand{\w}[0]{\vec{w}}
+\renewcommand{\S}[0]{\tens{S}}
+\renewcommand{\r}[0]{\vec{r}}
+\renewcommand{\u}[0]{\vec{u}}
+\newcommand{\q}[0]{\vec{q}}
+\renewcommand{\v}[0]{\vec{v}}
+\renewcommand{\P}[0]{\tens{P}}
+\newcommand{\dt}[0]{d_t}
+\newcommand{\di}[0]{d_i}
+\newcommand{\nt}[0]{n_t}
+\newcommand{\st}[0]{s_t}
+\newcommand{\mt}[0]{m_t}
+\newcommand{\ft}[0]{f_t}
+\newcommand{\Te}[0]{T_{\rm e}}
+\newcommand{\EM}[0]{\rm EM}
+\newcommand{\mathsc}[1]{{\normalfont\textsc{#1}}}
+\newcommand{\hi}{\ensuremath{\mathsc {Hi}}}
+
+
+\newcommand{\BP}{\textsc{BeyondPlanck}}
+
+\def\bC{\tens{C}}
+\def\ba{\vec{a}}
+\def\ncha{N_\mathrm{cha}}
+\def\nfg{N_\mathrm{fg}}
+
+%\modulolinenumbers[5]
+%\linenumbers
+
+\newcommand{\includegraphicsdpi}[3]{
+    \pdfimageresolution=#1  % Change the dpi of images
+    \includegraphics[#2]{#3}
+    \pdfimageresolution=72  % Change it back to the default
+}
+
+\renewcommand{\topfraction}{1.0}	% max fraction of floats at top
+    \renewcommand{\bottomfraction}{1.0}	% max fraction of floats at bottom
+    %   Parameters for TEXT pages (not float pages):
+    \setcounter{topnumber}{2}
+    \setcounter{bottomnumber}{2}
+    \setcounter{totalnumber}{4}     % 2 may work better
+    \setcounter{dbltopnumber}{2}    % for 2-column pages
+    \renewcommand{\dbltopfraction}{0.9}	% fit big float above 2-col. text
+    \renewcommand{\textfraction}{0.04}	% allow minimal text w. figs
+    %   Parameters for FLOAT pages (not text pages):
+    \renewcommand{\floatpagefraction}{0.9}	% require fuller float pages
+	% N.B.: floatpagefraction MUST be less than topfraction !!
+    \renewcommand{\dblfloatpagefraction}{0.9}	% require fuller float pages
+
+\def\adj{^{\dagger}}
+\def\tp{^{\rm T}}
+\def\inv{^{-1}}
+\def\lm{{\ell m}}
+
+\begin{document}
+
+\title{\textit{BeyondPlanck} results. 19. Low-Level Processing}
+\input{BP19_authors.tex}
+\authorrunning{Galloway et. al.}
+\titlerunning{BeyondPlanck Low Level Processing}
+
+\abstract{The BeyondPlanck project is a re-analysis of the Planck LFI data in an end-to-end Bayesian framework. This paper discusses the low level instrument processing employed by the BeyondPlanck pipeline. We show the Data Selection and flagging choices that were made, as well as novel corrections for the LFI ADC nonlinearity terms and the 1 Hz spike corrections. We also show the results of Wiener-filtering the reference load data before it is combined into the TODs. We compare this processing to the Planck PR3 and PR3 pipelines, and show that integrating these corrections terms into a Gibbs sampling framework resolves several systematic issues with the existing analyses.}
+
+\keywords{ISM: general -- Cosmology: observations, polarization,
+    cosmic microwave background, diffuse radiation -- Galaxy:
+    general}
+
+\maketitle
+
+%\hypersetup{linkcolor=black}
+%\tableofcontents
+%\hypersetup{linkcolor=red} 
+
+
+\section{Introduction}
+\label{sec:introduction}
+
+The so-called low-level analysis of the Planck LFI timestreams is the process of transforming the raw signals output from the Planck electronics chain into optimal estimates of the measured temperature as a function of time. The Level1 (L1) data that are the raw outputs of the Planck signal chain are processed, removing electronic contaminants 
+
+There are many previous low level processing papers blah blah blah
+
+We start with \citet{planck2016-l01}. 
+
+\section{Diode-Level Correction}
+
+The LFI instrument contains 22 independent detectors which observe through from 11 separate feedhorns pointed at the sky. Additionally, each signal pathway is also fed with a stable signal from a reference load kept at 4$K$, which are switched through the same electronics and then recombined. This full signal chain can be seen in Fig.~\ref{fig:diodes}, and ultimately results in two output signal timestreams for each physical detector, a SKY signal which characterizes the sky, and a REF signal which gives the response from the reference load at the same time.
+
+The purpose of incorporating the REF load is 
+
+The raw TODs ($d_{j,t}$ in Eq. 69 of \citet{BP01}) are constructed from the diode data as shown in Eq. \ref{eq:datamodel}.
+
+\textbf{TODO: Diagram of diodes and readout chain so people can see what is going on. Maybe ask the italians if they have an unpublished one?}
+
+
+\begin{equation}
+\label{eq:datamodel}
+d_j = w_j * (\hat{s}_{j,1} - r_1 F(\hat{l}_{j,1})) + (1-w_j)*(\hat{s}_{j,2} - r_2 F(\hat{l}_{j,2}))
+\end{equation}
+
+Here, $w_j$ are the diode weights, discussed in Sec. \ref{sec:weights}, $s$ and $l$ are the sky and load data for a detector $j$, and the hat indicates that they have been ADC corrected, as discussed in Sec. \ref{sec:adc}. $r_1$ and $r_2$ are the gain modulation factors, discussed in Sec. \ref{sec:gainFac}, and finally $F$ is the reference load filter function, defined in Sec. \ref{sec:refsmoothe}.
+
+\subsection{Data Selection and Flagging}
+
+Figure \ref{fig:means} shows the per-pid mean of each of the diode timestreams over the entire flight. Fig. \ref{fig:rms} shows the same but for the RMS of each of the timestreams instead. Both sets of plots are calculated using the DPC flagging information. Table \ref{tab:flags} shows the possible flag bits that have been populated by LFI. We differ from the DPC analysis by including the ``maneuvers'' data in our science results in the same manner as the npipe analysis, which makes our flag mask 
+\begin{equation}
+ 2^{14} + 2^{16} + 2^{18} + 2^{19} + 2^{20} + 2^{22} = 6111232. 
+\end{equation}
+
+\begin{figure*}[t]
+  \center
+  \includegraphics[width=\linewidth]{scripts/30_mean.pdf}\\
+  \includegraphics[width=\linewidth]{scripts/44_mean.pdf}\\
+  \includegraphics[width=\linewidth]{scripts/70_mean.pdf}
+  \caption{Diode means over the entire flight for (top to bottom): 30 GHz, 44 GHz and 70 GHz. 
+  }\label{fig:means}
+\end{figure*}
+
+\begin{figure*}[t]
+  \center
+  \includegraphics[width=\linewidth]{scripts/30_std.pdf}\\
+  \includegraphics[width=\linewidth]{scripts/44_std.pdf}\\
+  \includegraphics[width=\linewidth]{scripts/70_std.pdf}
+  \caption{Diode RMS values over the entire flight for (top to bottom): 30 GHz, 44 GHz and 70 GHz. 
+  }\label{fig:rms}
+\end{figure*}
+
+\begin{table}
+\caption{LFI Flag Information. All flag bits not listed here are unused and can be ignored. Bolded rows indicate flags we considered for \BP\ }
+\label{tab:flags}
+
+\begin{tabular}{ c | c | c }
+\hline\hline
+Bit & Name & Explanation\\
+\hline
+4  & Maneuvers & \makecell{Planck was transitioning\\ between rings}\\
+5 & Time Quality & \multirow{2}{*}{On board clock problem} \\
+6 & Time Quality & \\
+11 & Start/Stop Gap & Beginning or end of a gap\\
+\textbf{14} & \textbf{Bad Data} & \textbf{Other data issue}\\
+\textbf{16} & \textbf{Gap} & \textbf{Data is missing}\\
+\textbf{18} & \textbf{Planet} & \textbf{A planet transited the beam}\\
+\textbf{19} & \textbf{Moving Object} & \multirow{2}{*}{\makecell{\textbf{Another object}\\ \textbf{transited the beam}}}\\
+\textbf{20} & \textbf{Moving Object} & \\
+\textbf{22} & \textbf{Special Observation} & \textbf{Non-science observation}\\
+
+\hline
+
+\end{tabular}
+
+\end{table}
+
+Maybe talk about the galactic masks?
+
+\subsection{Adc Correction}
+\label{sec:adc}
+
+Based on the work done in \citet{planck2013-p02a}, we apply a similar procedure to the LFI corrections. The tell-tale signature of non-linearities in the ADC module is a characteristic dip in the noise RMS as a function of voltage. What causes this non-linearity is not clear, but we hope to resolve this issue. As described in \citet{planck2013-p02a}, the procedure prescribed to correct for the ADC non-linearities is to solve for the deviations between the expected linear response and the observed white-noise levels as shown in (some nice figure to be provided). This method of correcting the ADC non-linearities has two potential issues that we aim to correct here. The first issue is that this method of returning the ADC response to a purely linear form removes any natural deviations in the response. Anything that is not linear is considered to be an error we need to correct. The second issue, as seen by the DPC ADC correction tables is that the corrections are only done in the high signal to noise regime. Seeing as the dips in the white noise level are consistently spaced with similar dip depths we want to correct these dips even outside the poorly sampled voltages.
+
+Our adaptation of ADC corrections is done by creating a simple parametric model which estimates the dip width, the dip depth, and the voltage separation between dips. The dips in the white noise level are modeled as simple Gaussian functions. An example of one of this dips, with a fit Gaussian and the Gaussian corrected white noise vs voltage is shown in (another figure). We see that the Gaussian fit describes the dip well, while still allowing small scale fluctuations in the ADC white noise level. 
+
+So how do we apply these corrections?
+
+There are a few steps to go from modeling the dips in the white noise level to the new ADC correction tables. The modeled dips correspond to the differential response of the ADC, and we create a global differential response function by removing the linear portion of the voltage vs white noise and extrapolating the regular dips to the entire diode voltage range. What we need to correct for the ADC non-linearities is in fact the inverse differential response (I guess point to the equations from \citep{planck2013-p02a} Appendix A). This inverse differential response function, as show in (some figure) can be integrated up to return the reconstructed inverse response function (RIRF). We are almost done. In order to avoid having our corrections degenerate with the gain, we remove the linear portion of the reconstructed inverse response function. The ADC correction tables are then given by a grid of $V_{\rm in}$ and the corrected response $V_{\rm out}$, where $V_{\rm out} = V_{\rm in} + \mathrm{RIRF}$.
+
+Then comes the future portion where we throw in some maps and show some differences between (I suppose) no ADC corrections, DPC ADC corrections, and our amazing work. Nice.
+
+\subsection{Reference Load Smoothing}
+\label{sec:refsmoothe}
+
+Before the diodes are combined to produce the TOD, smoothing is applied to the load measurement to reduce high frequency noise, as was shown to be effective in the npipe analysis \citep{npipe}. The filter we apply is the Wiener filter, $W$, defined as 
+
+\begin{equation}
+\label{eq:wiener}
+W = \frac{P_s}{P_s + P_n} = \frac{1}{1+\frac{1}{\alpha}}. 
+\end{equation}
+
+Here, $P_s$ and $P_n$ are the signal and noise powers, and $\alpha$ is the signal to noise ratio of the sky to the load. If we assume that both diode's data are Gaussian, we can estimate $\alpha$ as
+
+\begin{equation}
+\label{eq:sn}
+\alpha = \frac{P_s}{P_n} = \frac{r}{1-r},
+\end{equation}
+
+where $r$ is Pearson's correlation coefficient. Inserting Eq. \ref{eq:sn} into Eq. \ref{eq:wiener} gives
+
+\begin{equation}
+W = \frac{1}{1 + \frac{1-r}{r}} = r,
+\end{equation}
+
+indicating that the Wiener filter in this case can be well approximated by the correlation coefficient between the two diodes. This is computed after the ADC corrections, as we expect this corrected timestream to have fewer artifacts. 
+
+Figure \ref{fig:refFilters} shows the computed filters applied to each of the reference diodes as a function of frequency. Each filter follows a similar shape, serving to retain the low frequency components which will be removed from the sky in the differencing stage, while filtering the uncorrelated high frequency components. This reduces the amount of noise injected into the final TODs by the load diodes, which results in cleaner overall measurements. The filters are defined to be unity for frequencies less that $7 Hz$, which eliminates dips in the filtering functions caused by the dipole which were seen at multiples of the scan frequencies.
+
+These filters are computed per-pid, and then averaged over the entire flight. This smoothed filter is then splined, and that spline is stored, to be applied to each chunk of the reference load data when it is processed. Contrary to our initial assumptions, there is still correlation at all scales, which is why we do not enforce the filter to be 0 at the 
+
+\begin{figure}[t]
+  \center
+  \includegraphics[width=\linewidth]{scripts/load_filters_30.pdf}\\
+  \includegraphics[width=\linewidth]{scripts/load_filters_44.pdf}\\
+  \includegraphics[width=\linewidth]{scripts/load_filters_70.pdf}
+  \caption{Filter transfers as a function of frequency for (top to bottom) 30GHz, 44GHz and 70GHz LFI reference load diodes. 
+  }\label{fig:refFilters}
+\end{figure}
+
+
+
+\subsection{Gain Modulation Factor}
+\label{sec:gainFac}
+
+The gain modulation factor ($r_1$ and $r_2$ in Eq. \ref{eq:datamodel}) is designed to correct the mismatch in power between the load diode, which is observing a 4K reference load, and the sky diode, which observes the 2.7K microwave sky. Historically, this value has been calculated following the procedure of  \citet{Mennella_2003}, by computing 
+
+\begin{equation}
+r = \frac{\sum^N_{i=1} V_{sky,i}}{\sum^N_{i=1} V_{ref,i}}
+\end{equation}
+
+where $N$ represents the total number of unflagged samples in each data chunk, and $V$ is the voltage data from the sky or load. This is a simple calculation that matches the average power level of the two diodes, but it is also possible to refine this simple model slightly to account for the different components of the sky signal. We can instead model the sky diode as 
+
+\begin{equation}
+d_{sky} = \alpha_1 + \alpha_2 * s_{gal} + \alpha_3 * d_{load}
+\end{equation}
+
+where $s_{gal}$ is the galactic signal and $d_{sky}$ and $d_{load}$ are the sky and load diode timestreams, respectively. This parameterization allows a simultaneous fit to the galactic signal and possible offset term, which should provide a cleaner fit to the actual noise and allow a better subtraction. The code performs a least squares minimization over each pointing period to estimate the best fit values of $\alpha$, and then uses $\alpha_3$ as the best fit value for the Gain Modulation Factor $r$.
+
+Figure \ref{fig:GMFcompare} shows a comparison between these two estimates of the Gain Modulation Factor, as well as the published DPC values from the 2018 analysis. 
+
+This second approach introduces a dependency on the initialization sky model, $s_{gal}$. As the L1 processing is not included in the overall Gibbs chain, due to very minimal dependencies on the rest of the chain, this sky model is not updated in future iterations and remains fixed to the initial value. Figure \ref{fig:GMFstable} shows the resulting Gain Modulation Factor for three different initial sky models, showing that this dependency is very weak. The resulting processing time reduction from not re-computing on the L1 data each iteration is therefor worth this negligible bias.
+
+\subsection{Diode Weights}
+\label{sec:weights}
+
+Currently we just use the DPC weights. 
+
+\section{TOD-Level Corrections}
+
+Once the diode signals have been combined into a single TOD signal, we perform a final low level correction that was previously computed at the diode level. The 1Hz spike template has been moved to the TOD level in our analysis, simplifying the process and number of templates that must be computed, without loss of accuracy. This is possible because the combined TOD is linear in the diode data, so a 1Hz template can be computed that is effectively the combination of the four diode-level templates computed in previous analyses. 
+
+
+\subsection{1 Hz Spike Templates}
+\label{sec:1Hz}
+
+\section{Propagation of Errors}
+\label{sec:uncertainties}
+
+Here we compare two pipeline runs, one with the low level parameters sampled and one with them fixed. We show that the effects of the uncertainties of the low lever parameters are small compared to other uncertainties, and thus we are justified in fixing them.
+
+\section{Comparison with DPC}
+\label{sec:comparison}
+
+We can compare the final TOD generated using the \BP\ pipeline to the L2 data used in the DPC analysis to see what effects these procedures have had.
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+The \BP\ pipeline has successfully reproduced and improved the Planck DPC low level processing, incorporating improvements from the npipe analysis as well as novel ideas. The resulting TOD is available to the rest of the pipeline, and they have cleaner noise properties than the existing DPC timestreams. 
+
+\input{../common/BP_acknowledgments.tex}
+
+\bibliographystyle{aa}
+
+\bibliography{sources.bib,../common/Planck_bib,../common/BP_bibliography}
+
+
+\end{document}

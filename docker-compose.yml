@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  gitlab-runner:
+    image: gitlab/gitlab-runner
+    restart: unless-stopped
+    volumes:
+      - gitlabrunner_config:/etc/gitlab-runner
+      - gitlabrunner_cache:/cache
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+volumes:
+  gitlabrunner_config:
+    external: true
+  gitlabrunner_cache:
+    external: true

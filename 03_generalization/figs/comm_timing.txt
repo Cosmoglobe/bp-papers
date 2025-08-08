@@ -1,0 +1,90 @@
+ Timing summary
+ 
+    Numbers are given in (CPU-hours,%)
+ 
+    Global total timers:
+       Number of samples             =          136
+       Total runtime                 =    22354.975h
+       Initialization                =       64.046h      0.29%
+       Total FFT                     =        0.000h      0.00%
+       Total SHT                     =     4745.595h     21.23%
+ 
+    Global per-sample timers:
+       Chain output                  =        0.604h      0.37%
+       Amplitude sampling            =       23.915h     14.60%
+       Spectral index sampling       =       40.250h     24.56%
+       Cls sampling                  =        0.000h      0.00%
+       TOD processing                =       99.087h     60.47%
+       Other                         =        0.000h      0.00%
+       Total cost per Gibbs sample   =      163.856h
+ 
+    Channel-specific global timers:
+ 
+      Channel                      = 030
+      TOD initialization           =        3.813h
+      TOD sidelobe precomputation  =        0.196h      1.88%
+      TOD sidelobe interpolation   =        0.936h      8.99%
+      TOD sky-to-tod projection    =        0.302h      2.90%
+      TOD orbital dipole           =        0.537h      5.15%
+      TOD decompression            =        1.116h     10.72%
+      TOD absolute calibration     =        0.167h      1.61%
+      TOD relative calibration     =        0.167h      1.60%
+      TOD delta G calibration      =        0.257h      2.47%
+      TOD transmission imbalance   =        0.000h      0.00%
+      TOD 1 Hz spikes              =        0.212h      2.04%
+      TOD correlated noise         =        1.737h     16.69%
+      TOD corr noise PSD           =        3.255h     31.27%
+      TOD binning                  =        0.205h      1.97%
+      TOD chisq                    =        0.016h      0.16%
+      TOD bandpass                 =        0.019h      0.18%
+      TOD map solution             =        0.045h      0.43%
+      Zodiacal Light model         =        0.000h      0.00%
+      4D map output                =        0.102h      0.98%
+      Other                        =        1.140h     10.95%
+      Total TOD                    =       10.410h
+ 
+      Channel                      = 044
+      TOD initialization           =        4.255h
+      TOD sidelobe precomputation  =        0.295h      1.69%
+      TOD sidelobe interpolation   =        1.827h     10.48%
+      TOD sky-to-tod projection    =        0.654h      3.75%
+      TOD orbital dipole           =        1.138h      6.52%
+      TOD decompression            =        2.013h     11.54%
+      TOD absolute calibration     =        0.202h      1.16%
+      TOD relative calibration     =        0.201h      1.15%
+      TOD delta G calibration      =        0.300h      1.72%
+      TOD transmission imbalance   =        0.000h      0.00%
+      TOD 1 Hz spikes              =        0.313h      1.79%
+      TOD correlated noise         =        3.636h     20.85%
+      TOD corr noise PSD           =        3.960h     22.70%
+      TOD binning                  =        0.469h      2.69%
+      TOD chisq                    =        0.034h      0.19%
+      TOD bandpass                 =        0.011h      0.06%
+      TOD map solution             =        0.140h      0.80%
+      Zodiacal Light model         =        0.000h      0.00%
+      4D map output                =        0.128h      0.74%
+      Other                        =        2.121h     12.16%
+      Total TOD                    =       17.443h
+ 
+      Channel                      = 070
+      TOD initialization           =       12.513h
+      TOD sidelobe precomputation  =        0.631h      0.91%
+      TOD sidelobe interpolation   =        5.896h      8.53%
+      TOD sky-to-tod projection    =        3.124h      4.52%
+      TOD orbital dipole           =        4.597h      6.65%
+      TOD decompression            =        7.137h     10.33%
+      TOD absolute calibration     =        1.538h      2.23%
+      TOD relative calibration     =        1.539h      2.23%
+      TOD delta G calibration      =        1.674h      2.42%
+      TOD transmission imbalance   =        0.000h      0.00%
+      TOD 1 Hz spikes              =        1.933h      2.80%
+      TOD correlated noise         =       24.793h     35.87%
+      TOD corr noise PSD           =        1.143h      1.65%
+      TOD binning                  =        4.078h      5.90%
+      TOD chisq                    =        0.269h      0.39%
+      TOD bandpass                 =        0.062h      0.09%
+      TOD map solution             =        1.016h      1.47%
+      Zodiacal Light model         =        0.000h      0.00%
+      4D map output                =        0.399h      0.58%
+      Other                        =        9.286h     13.44%
+      Total TOD                    =       69.116h

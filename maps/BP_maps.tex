@@ -1,0 +1,299 @@
+\documentclass[twocolumn]{aa}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{txfonts}
+\usepackage{color}
+%\usepackage{fixltx2e}
+\usepackage{natbib}
+%\usepackage{caption,subcaption}
+%\usepackage{epsfig}
+\usepackage{float}
+%\usepackage{stfloats}
+\usepackage{dblfloatfix}
+\usepackage{afterpage}
+\usepackage{ifthen}
+\usepackage[morefloats=12]{morefloats}
+\usepackage{placeins}
+\usepackage{multicol}
+%\usepackage[breaklinks,colorlinks,citecolor=blue]{hyperref}
+\bibpunct{(}{)}{;}{a}{}{,}
+\usepackage[switch]{lineno}
+\definecolor{linkcolor}{rgb}{0.6,0,0}
+\definecolor{citecolor}{rgb}{0,0,0.75}
+\definecolor{urlcolor}{rgb}{0.12,0.46,0.7}
+\usepackage[breaklinks, colorlinks, urlcolor=urlcolor,
+    linkcolor=linkcolor,citecolor=citecolor,pdfencoding=auto]{hyperref}
+\hypersetup{linktocpage}
+\usepackage{bold-extra}
+
+
+\input{Planck}
+
+\def\WMAP{WMAP}
+\def\COBE{COBE}
+\def\LCDM{$\Lambda$CDM}
+\def\ffp{FFP6}
+\def\unionmask{U73}
+\def\nside{N_{\mathrm{side}}}
+
+\def\healpix{\texttt{HEALPix}}
+\def\commander{\texttt{Commander}}
+\def\commanderone{\texttt{Commander1}}
+\def\commandertwo{\texttt{Commander2}}
+\def\ruler{\texttt{Ruler}}
+\def\comrul{\texttt{Commander-Ruler}}
+\def\CR{\texttt{C-R}}
+\def\nilc{\texttt{NILC}}
+\def\gnilc{\texttt{GNILC}}
+\def\sevem{\texttt{SEVEM}}
+\def\smica{\texttt{SMICA}}
+\def\CamSpec{\texttt{CamSpec}}
+\def\Plik{\texttt{Plik}}
+\def\XFaster{\texttt{XFaster}}
+
+\renewcommand{\d}[0]{\vec{d}}
+\renewcommand{\t}[0]{\vec{t}}
+\newcommand{\A}[0]{\tens{A}}
+%\newcommand{\Y}[0]{\tens{Y}}
+\newcommand{\Y}[0]{\tens{Y}}
+\newcommand{\n}[0]{\vec{n}}
+\newcommand{\red}[0]{\color{red}}
+\newcommand{\green}[0]{\color{green}}
+\newcommand{\s}[0]{\vec{s}}
+\renewcommand{\a}[0]{\vec{a}}
+\newcommand{\m}[0]{\vec{m}}
+\newcommand{\f}[0]{\vec{f}}
+\newcommand{\F}[0]{\tens{F}}
+\newcommand{\B}[0]{\tens{B}}
+\newcommand{\T}[0]{\tens{T}}
+\newcommand{\Cp}[0]{\tens{C}}
+\renewcommand{\L}[0]{\tens{L}}
+\newcommand{\g}[0]{\vec{g}}
+\newcommand{\N}[0]{\tens{N}}
+\newcommand{\M}[0]{\tens{M}}
+\newcommand{\iN}[0]{\tens{N}^{-1}}
+\newcommand{\iM}[0]{\tens{M}^{-1}}
+\newcommand{\w}[0]{\vec{w}}
+\renewcommand{\S}[0]{\tens{S}}
+\renewcommand{\r}[0]{\vec{r}}
+\renewcommand{\u}[0]{\vec{u}}
+\newcommand{\q}[0]{\vec{q}}
+\renewcommand{\v}[0]{\vec{v}}
+\renewcommand{\P}[0]{\tens{P}}
+\newcommand{\dt}[0]{d_t}
+\newcommand{\di}[0]{d_i}
+\newcommand{\nt}[0]{n_t}
+\newcommand{\st}[0]{s_t}
+\newcommand{\mt}[0]{m_t}
+\newcommand{\ft}[0]{f_t}
+\newcommand{\Te}[0]{T_{\rm e}}
+\newcommand{\EM}[0]{\rm EM}
+\newcommand{\mathsc}[1]{{\normalfont\textsc{#1}}}
+\newcommand{\hi}{\ensuremath{\mathsc {Hi}}}
+\newcommand{\bpbold}{\bfseries{\scshape{BeyondPlanck}}}
+\newcommand{\BP}{\textsc{BeyondPlanck}}
+\newcommand{\lfi}[0]{LFI}
+\newcommand{\hfi}[0]{HFI}
+\newcommand{\npipe}[0]{\texttt{NPIPE}}
+
+
+\def\bC{\tens{C}}
+\def\ba{\vec{a}}
+\def\ncha{N_\mathrm{cha}}
+\def\nfg{N_\mathrm{fg}}
+
+%\modulolinenumbers[5]
+%\linenumbers
+
+\newcommand{\includegraphicsdpi}[3]{
+    \pdfimageresolution=#1  % Change the dpi of images
+    \includegraphics[#2]{#3}
+    \pdfimageresolution=72  % Change it back to the default
+}
+
+\renewcommand{\topfraction}{1.0}	% max fraction of floats at top
+    \renewcommand{\bottomfraction}{1.0}	% max fraction of floats at bottom
+    %   Parameters for TEXT pages (not float pages):
+    \setcounter{topnumber}{2}
+    \setcounter{bottomnumber}{2}
+    \setcounter{totalnumber}{4}     % 2 may work better
+    \setcounter{dbltopnumber}{2}    % for 2-column pages
+    \renewcommand{\dbltopfraction}{0.9}	% fit big float above 2-col. text
+    \renewcommand{\textfraction}{0.04}	% allow minimal text w. figs
+    %   Parameters for FLOAT pages (not text pages):
+    \renewcommand{\floatpagefraction}{0.9}	% require fuller float pages
+	% N.B.: floatpagefraction MUST be less than topfraction !!
+    \renewcommand{\dblfloatpagefraction}{0.9}	% require fuller float pages
+
+\def\adj{^{\dagger}}
+\def\tp{^{\rm T}}
+\def\inv{^{-1}}
+\def\lm{{\ell m}}
+
+\begin{document}
+
+\title{\bfseries{\scshape{BeyondPlanck}} XI. Frequency maps and sky map posteriors }
+\input{../common/BP_authors.tex}
+\authorrunning{BeyondPlanck Collaboration}
+\titlerunning{Overview}
+
+\abstract{This paper describes the \BP\ (BP) frequency maps, and compares the \BP\ maps with other datasets Planck PR3, \npipe\ and WMAP. \dots }
+
+\keywords{Cosmology, maps, \dots}
+
+\maketitle
+
+%\hypersetup{linkcolor=black}
+%\tableofcontents
+%\hypersetup{linkcolor=red} 
+
+
+\section{Introduction}
+\label{sec:introduction}
+
+
+In this paper we discuss the \BP\ maps, including Commander3, old-school pipeline and beam deconvolved maps. We discuss full mission and split maps; also rms stuff, maybe noise properties, possibly something else. We also compare the \BP\ maps with other datasets including Planck PR3, \npipe\, and WMAP.
+
+Map-making in a standard CMB analysis chain compresses the time-ordered data into sky maps. The data, however, contains contributions from instrumental noise, which  will alter the statistical properties of the resulting maps -- if left untreated. Map-making is the natural place to tackle the correlated noise. Hence, in addition to visualising and compressing data, a proper map-making algorithm aims to remove the correlated noise, while processing the CMB signal and white noise as little as possible.
+
+Destriping method is motivated by the presence of correlated low-frequency noise in the data. In destriping the 1/f noise component is modelled by a sequence of constant offsets, called baselines. Further, generalised destriping can utilise prior knowledge about noise properties to better constrain baseline amplitudes. The generalised destriping allows us to shorten the baseline length considerably and to remove the 1/f component more accurately. 
+
+{\tt Madam} map-maker is based on the generalised destriping principle, and has been widely used on the Planck analysis. {\tt Madam} has been described in great detail in X. Planck map-making described in X, Y, Z.
+
+Beam deconvolution removes effects of beam asymmetry. For example leakage of temperature signal to polarization through beam shape mismatch. Produces sky maps with effective symmetric beam. ArtDeco: Beam deconvolver designed for Planck like data. Has been successfully applied to Planck LFI data.
+
+In \BP\ frequency maps are used as an input to component separation.
+
+This paper is organised as follows \dots
+
+\newpage
+
+%%%########%%%
+\section{Map-making in \BP}
+
+Frequency maps are input to Commander component separation.
+
+\subsection{Commander3}
+
+Frequency maps: compression of time stream
+
+
+\subsection{Old-school pipeline}
+
+The old-school pipeline uses the {\tt Madam} as the map-maker.  {\tt Madam} has been adapted to read HFD5 input files, \dots
+Chosen parameters and why \dots
+
+\subsection{\BP\ maps}
+We present the \BP\ frequency maps in Fig. \ref{fig:freq_maps}
+\begin{figure*}
+  %\center
+  %\includegraphics[width=0.35\linewidth]{figs/planck_satellite.jpg}
+  %\includegraphics[width=0.64\linewidth]{figs/planck_focalplane.png}
+  \caption{Commander3 frequency maps for 30, 44 and 70 GHz.}\label{fig:freq_maps}
+\end{figure*}
+
+\subsection{Half-ring maps? Something else?}
+
+Planck scanning strategy: subset maps with nearly identical systematics but independent instrument noise.
+
+
+%%%########%%%
+\section{Beam deconvolution}
+
+Beam deconvolution \dots
+
+{\tt ArtDeco} \dots
+
+We present the \BP\ beam deconvolved frequency maps in Fig. \ref{fig:dec_freq_maps}
+
+\begin{figure*}
+  %\center
+  %\includegraphics[width=0.35\linewidth]{figs/planck_satellite.jpg}
+  %\includegraphics[width=0.64\linewidth]{figs/planck_focalplane.png}
+  \caption{Beam deconvolved frequency maps for 30, 44 and 70 GHz.}\label{fig:dec_freq_maps}
+\end{figure*}
+
+%%%########%%%
+\section{Maps from other datasets}
+
+\subsection{Planck PR3}
+
+{\tt Madam} has also been the main map-making tool of the Planck LFI DPC. The map-making procedure is described in \dots In short maps has been made as follows \dots
+
+\subsection{\npipe}
+
+Destriping with 167 ms baselines, $N_{\textrm side}$ 512 for LFI. Includes solar dipole.
+
+\subsection{WMAP}
+
+
+
+%\begin{figure*}[t]
+  %\center
+  %\includegraphics[width=0.35\linewidth]{figs/planck_satellite.jpg}
+  %\includegraphics[width=0.64\linewidth]{figs/planck_focalplane.png}
+  %\caption{ }\label{fig:planck_instrument}
+%\end{figure*}
+
+
+\section{Comparisons/\dots}
+
+
+\subsection{Comparison of frequency maps}
+
+\begin{figure*}
+  %\center
+  %\includegraphics[width=0.35\linewidth]{figs/planck_satellite.jpg}
+  %\includegraphics[width=0.64\linewidth]{figs/planck_focalplane.png}
+  \caption{Frequency maps for 30, 44 and 70 GHz for all datasets.}\label{fig:planck_instrument}
+\end{figure*}
+
+\begin{figure*}
+  %\center
+  %\includegraphics[width=0.35\linewidth]{figs/planck_satellite.jpg}
+  %\includegraphics[width=0.64\linewidth]{figs/planck_focalplane.png}
+  \caption{Comparing frequency maps from other dataset with \BP.}\label{fig:planck_instrument}
+\end{figure*}
+
+
+\begin{figure*}
+  %\center
+  %\includegraphics[width=0.35\linewidth]{figs/planck_satellite.jpg}
+  %\includegraphics[width=0.64\linewidth]{figs/planck_focalplane.png}
+  \caption{Half-mission comparison}\label{fig:planck_instrument}
+\end{figure*}
+
+\begin{figure*}
+  %\center
+  %\includegraphics[width=0.35\linewidth]{figs/planck_satellite.jpg}
+  %\includegraphics[width=0.64\linewidth]{figs/planck_focalplane.png}
+  \caption{Odd-even comparison}\label{fig:planck_instrument}
+\end{figure*}
+
+\begin{figure*}
+  %\center
+  %\includegraphics[width=0.35\linewidth]{figs/planck_satellite.jpg}
+  %\includegraphics[width=0.64\linewidth]{figs/planck_focalplane.png}
+  \caption{Year comparison?}\label{fig:planck_instrument}
+\end{figure*}
+
+\section{Conclusions}
+\label{sec:summary}
+
+Use the \BP\ maps!
+
+\input{../common/BP_acknowledgments.tex}
+
+\bibliographystyle{aa}
+
+\bibliography{../common/Planck_bib,../common/BP_bibliography}
+
+%\appendix
+
+%\section{Appendix}
+%\label{app:appendix}
+
+
+
+\end{document}

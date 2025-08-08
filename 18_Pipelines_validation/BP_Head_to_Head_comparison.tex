@@ -1,0 +1,52 @@
+\documentclass[twocolumn]{aa}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{txfonts}
+\usepackage{color}
+\usepackage{natbib}
+\usepackage{float}
+\usepackage{dblfloatfix}
+\usepackage{afterpage}
+\usepackage{ifthen}
+\usepackage[morefloats=12]{morefloats}
+\usepackage{placeins}
+\usepackage{multicol}
+\bibpunct{(}{)}{;}{a}{}{,}
+\usepackage[switch]{lineno}
+\definecolor{linkcolor}{rgb}{0.6,0,0}
+\definecolor{citecolor}{rgb}{0,0,0.75}
+\definecolor{urlcolor}{rgb}{0.12,0.46,0.7}
+\usepackage[breaklinks, colorlinks, urlcolor=urlcolor,
+    linkcolor=linkcolor,citecolor=citecolor,pdfencoding=auto]{hyperref}
+\hypersetup{linktocpage}
+\usepackage{bold-extra}
+
+\input{Planck}
+
+\newcommand{\bpbold}{\bfseries{\scshape{BeyondPlanck}}}
+\newcommand{\BP}{\textsc{BeyondPlanck}}
+\newcommand{\WMAP}{\textit{WMAP}}
+
+\begin{document}
+
+\title{\bfseries{\scshape{BeyondPlanck}} XVIII. End-to-end validation of \BP  }
+\input{../common/BP_authors.tex}
+\authorrunning{BeyondPlanck Collaboration}
+\titlerunning{Overview}
+
+\abstract{The whole thing is to compare the pipelines through validation of the software. }
+
+\keywords{Software validation}
+
+\maketitle
+
+\input{introduction}
+\input{sim_components}
+\input{many_software}
+\input{one_software}
+\input{comparison}
+
+\input{../common/BP_acknowledgments.tex}
+
+\end{document}
