@@ -1,3 +1,7 @@
+## Update August 2025
+This repo is an archive of the beyondplanck papers repository, copied from the now defunct gitlab. All the information below is out of date, but is left for historical reasons.
+
+
 ## BeyondPlanck Papers
 
 The full list of BP Papers (in PDF format) appear at:
